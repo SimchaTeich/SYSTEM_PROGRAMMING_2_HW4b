@@ -8,7 +8,7 @@ namespace ariel
     class Ninja : public Character
     {
     protected:
-        int _speed;
+        int _speed;     // NOLINT
 
     public:
         Ninja(const string& name, Point location);

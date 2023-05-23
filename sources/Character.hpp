@@ -19,9 +19,9 @@ namespace ariel
         bool _inTeam;
 
     protected:
-        Point _location;
-        int _hitPoints;
-        char _type; // 'C' or 'N'
+        Point _location;            // NOLINT
+        int _hitPoints;             // NOLINT
+        char _type; // 'C' or 'N'   // NOLINT
 
     public:
         Character(const string& name, Point location);

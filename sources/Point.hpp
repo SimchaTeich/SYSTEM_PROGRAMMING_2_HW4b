@@ -9,14 +9,14 @@ using std::endl;
 
 namespace ariel
 {
-    class Point
+    class Point                         // NOLINT
     {
     private:
         double _x;
         double _y;
 
     public:
-        Point(double x, double y);
+        Point(double x, double y);      // NOLINT
         Point(const Point& other);
 
         // getters

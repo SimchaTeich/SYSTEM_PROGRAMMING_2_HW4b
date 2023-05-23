@@ -8,15 +8,15 @@
 #include "TrainedNinja.hpp"
 #include "OldNinja.hpp"
 
-#define MAX_PLAYERS 10
+constexpr int MAX_PLAYERS = 10;
 
 namespace ariel
 {
-    class Team
+    class Team                           // NOLINT
     {
     private:
-        Cowboy *_cowboys[MAX_PLAYERS];
-        Ninja *_ninjas[MAX_PLAYERS];
+        Cowboy *_cowboys[MAX_PLAYERS];   // NOLINT
+        Ninja *_ninjas[MAX_PLAYERS];     // NOLINT
         int _amountOfCowboys;
         int _amountOfNinjas;
         Character *_captain;

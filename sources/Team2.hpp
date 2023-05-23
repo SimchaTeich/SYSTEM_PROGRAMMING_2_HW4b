@@ -3,8 +3,6 @@
 
 #include "Team.hpp"
 
-#define MAX_PLAYERS 10
-
 namespace ariel
 {
     class Team2 : public Team
