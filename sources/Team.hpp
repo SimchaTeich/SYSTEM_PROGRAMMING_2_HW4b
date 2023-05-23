@@ -21,6 +21,12 @@ namespace ariel
         int _amountOfNinjas;
         Character *_captain;
 
+        /*
+        returns pointer to the closest character in team, to
+        player.
+        */
+        static Character *closestToPlayer(Character *player, Team* team);
+
     public:
         Team(Character *captain);
         ~Team(); // need to define all destructors of all as virtual.
@@ -48,6 +54,33 @@ namespace ariel
         * full explanation in README.md
         */
         string print() const;
+
+        /*
+        returns amount of cowboys (alive or not..)
+        */
+        int amountOfCowboys() const;
+
+        /*
+        returns amount of Ninjas (alive or not..)
+        */
+        int amountOfNinjas() const;
+
+        /*
+        Returns the captain of the team
+        */
+        Character *captain() const;
+
+        /*
+        Returns pointer to cowboys at some index
+        */
+        Cowboy *CowboyAt(int index) const;
+
+        /*
+        Returns pointer to Ninjs at some index
+        */
+        Ninja *NinjaAt(int index) const;
+
+
     };
 };
 
