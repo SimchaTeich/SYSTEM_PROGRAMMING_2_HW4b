@@ -14,14 +14,19 @@ Ninja::Ninja(const string& name, Point location)
 void Ninja::move(Character *other)
 {
     // move as match you can toward the other.
-    int distaneToMove = distance(other) > _speed ? _speed : distance(other);
-    _location = Point::moveToWards(_location, other->getLocation(), distaneToMove);
+    double distaneToMove = distance(other) > _speed ? _speed : distance(other);
+    _location = Point::moveTowards(_location, other->getLocation(), distaneToMove);
 };
 
 
 void Ninja::slash(Character *other)
 {
-    if(isAlive() && distance(other) < 1)
+    if(this == other) throw std::runtime_error("No self harm");
+
+    if(!isAlive()) throw std::runtime_error("Im dead...");
+    if(!other->isAlive()) throw std::runtime_error("Cant slash a dead enemy!");
+
+    if(distance(other) < 1)
     {
         other->hit(40);
     }

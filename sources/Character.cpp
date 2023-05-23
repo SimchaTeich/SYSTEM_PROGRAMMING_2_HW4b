@@ -26,6 +26,7 @@ double Character::distance(Character *other) const
 
 void Character::hit(const int& points)
 {
+    if(points < 0) throw std::invalid_argument("Cant hit less then 0 points..");
     _hitPoints -= points;
 };
 

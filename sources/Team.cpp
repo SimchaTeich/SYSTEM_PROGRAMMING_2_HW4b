@@ -1,4 +1,5 @@
 #include "Team.hpp"
+#include <float.h>
 
 using namespace ariel;
 
@@ -14,7 +15,7 @@ Team::Team(Character *captain)
 
 void Team::add(Character *player)
 {
-    if(player->inTeam()) throw "Cannot add player to group!";
+    if(player->inTeam()) throw std::runtime_error("Cannot add player to more then one group!");
 
     if(_amountOfCowboys + _amountOfNinjas < MAX_PLAYERS)
     {
@@ -26,6 +27,10 @@ void Team::add(Character *player)
         {
             _ninjas[_amountOfNinjas++] = (Ninja *)player;
         }
+    }
+    else
+    {
+        throw std::runtime_error("Sorry! group is fully");
     }
 
     player->insertedToTeam();
@@ -50,27 +55,36 @@ Team::~Team()
 
 void Team::attack(Team *enemies)
 {
+    if(enemies == nullptr) throw std::invalid_argument("Team to attack is nullptr..");
+    if(!this->stillAlive() || !enemies->stillAlive()) throw std::runtime_error("Team to attack is dead..");
+
     if(!_captain->isAlive())
     {
         _captain = Team::closestToPlayer(_captain, this);
+        if(_captain == nullptr) return;
     }
-    else
+    
+    Character *victim = Team::closestToPlayer(_captain, enemies);
+    if (victim == nullptr) return;
+
+    // attack by cowboys
+    for(int i = 0; i < _amountOfCowboys; i++)
     {
-        Character *victim = Team::closestToPlayer(_captain, enemies);
+        if(!victim->isAlive()) victim = Team::closestToPlayer(_captain, enemies);
+        if (victim == nullptr) return;
 
-        // attack by cowboys
-        for(int i = 0; i < _amountOfCowboys; i++)
-        {
-            if(_cowboys[i]->hasBullets()) _cowboys[i]->shoot(victim);
-            else _cowboys[i]->reload();
-        }
+        if(_cowboys[i]->isAlive() && _cowboys[i]->hasBullets() && victim->isAlive()) _cowboys[i]->shoot(victim);
+        else if (_cowboys[i]->isAlive() && !_cowboys[i]->hasBullets() && victim->isAlive()) _cowboys[i]->reload();
+    }
 
-        // attack by ninjas
-        for(int i = 0; i < _amountOfNinjas; i++)
-        {
-           if(_ninjas[i]->distance(victim) < 1) _ninjas[i]->slash(victim);
-           else _ninjas[i]->move(victim);
-        }
+    // attack by ninjas
+    for(int i = 0; i < _amountOfNinjas; i++)
+    {
+        if(!victim->isAlive()) victim = Team::closestToPlayer(_captain, enemies);
+        if (victim == nullptr) return;
+
+        if(_ninjas[i]->isAlive() && _ninjas[i]->distance(victim) < 1 && victim->isAlive()) _ninjas[i]->slash(victim);
+        else if (_ninjas[i]->isAlive() && _ninjas[i]->distance(victim) >= 1 && victim->isAlive())_ninjas[i]->move(victim);
     }
 };
 
@@ -148,17 +162,17 @@ Ninja *Team::NinjaAt(int index) const
 
 Character *Team::closestToPlayer(Character *player, Team* team)
 {
-    Character *closest = team->captain();
+    Character *closest = nullptr;
     int amountOfCowboys = team->amountOfCowboys();
     int amountOfNinjas = team->amountOfNinjas();
-    double distance = INT16_MAX;
+    double distance = DBL_MAX;
     
     // Go over cowboys
     for(int i = 0; i < amountOfCowboys; i++)
     {
         if(player != team->CowboyAt(i) &&
            team->CowboyAt(i)->isAlive() &&
-           player->distance(team->CowboyAt(i)) < distance)
+           player->distance(team->CowboyAt(i)) <= distance)
         {
             closest = team->CowboyAt(i);
             distance = player->distance(closest);
@@ -170,12 +184,12 @@ Character *Team::closestToPlayer(Character *player, Team* team)
     {
         if(player != team->NinjaAt(i) &&
            team->NinjaAt(i)->isAlive() &&
-           player->distance(team->NinjaAt(i)) < distance)
+           player->distance(team->NinjaAt(i)) <= distance)
         {
             closest = team->NinjaAt(i);
             distance = player->distance(closest);
         }
     }
-
+    
     return closest;
 }

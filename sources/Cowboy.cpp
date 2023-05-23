@@ -14,7 +14,12 @@ Cowboy::Cowboy(const string& name, Point location)
 
 void Cowboy::shoot(Character *other)
 {
-    if(isAlive() && hasBullets())
+    if(this == other) throw std::runtime_error("No self harm");
+
+    if(!isAlive()) throw std::runtime_error("Im dead...");
+    if(!other->isAlive()) throw std::runtime_error("Cant slash a dead enemy!");
+
+    if(hasBullets())
     {
         other->hit(10);
         _bullets--;
@@ -36,5 +41,6 @@ bool Cowboy::hasboolets() const
 
 void Cowboy::reload()
 {
-    _bullets += 6;
+    if(!isAlive()) throw std::runtime_error("Dead cowboy can not reload");
+    _bullets = 6;
 };

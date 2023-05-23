@@ -43,6 +43,9 @@ string Point::print() const
 //https://stackoverflow.com/questions/13302396/given-two-points-find-a-third-point-on-the-line
 Point Point::moveTowards(const Point& src, const Point& dst, double distance)
 {
+    if(distance < 0) throw std::invalid_argument("distance is ilegal!");
+    if(src.distance(dst) <= distance) return Point(dst);
+
     // clac the vector
     double vx = dst._x - src._x;
     double vy = dst._y - src._y;
