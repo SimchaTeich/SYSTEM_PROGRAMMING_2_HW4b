@@ -28,7 +28,7 @@ bool Cowboy::hasBullets() const
 };
 
 
-bool Cowboy::hasBoolets() const
+bool Cowboy::hasboolets() const
 {
     return hasBullets();
 };

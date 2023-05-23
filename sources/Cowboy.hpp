@@ -24,7 +24,7 @@ namespace ariel
         * Returns true if we have at least one more bullet
         */
         bool hasBullets() const;
-        bool hasBoolets() const; // same as the abouv.
+        bool hasboolets() const; // same as the abouv.
                                 // but unfortantly this is
                                 // a mistake of how created this
                                 // taks. I have to implement it
