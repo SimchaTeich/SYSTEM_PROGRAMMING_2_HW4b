@@ -41,7 +41,7 @@ namespace ariel
         calc some Point on the line, define by src and dst,
         with distance start from src.
         */
-        static Point moveToWards(const Point& src, const Point& dst, double distance);
+        static Point moveTowards(const Point& src, const Point& dst, double distance);
     };
 };
 

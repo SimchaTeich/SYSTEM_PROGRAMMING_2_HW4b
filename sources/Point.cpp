@@ -41,7 +41,7 @@ string Point::print() const
 
 // Helps after some changes:
 //https://stackoverflow.com/questions/13302396/given-two-points-find-a-third-point-on-the-line
-Point Point::moveToWards(const Point& src, const Point& dst, double distance)
+Point Point::moveTowards(const Point& src, const Point& dst, double distance)
 {
     // clac the vector
     double vx = dst._x - src._x;
